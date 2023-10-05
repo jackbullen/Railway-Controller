@@ -15,9 +15,11 @@ def main():
             train = Train(direction, priority, float(loading_time)/10, float(crossing_time)/10)
             trains.append(train)
 
+    barrier = threading.Barrier(len(trains))
+
     threads = []
     for train in trains:
-        thread = threading.Thread(target=train_thread_function, args=(train, controller))
+        thread = threading.Thread(target=train_thread_function, args=(train, controller, barrier))
         threads.append(thread)
         thread.start()
 

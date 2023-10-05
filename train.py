@@ -11,7 +11,11 @@ class Train:
         self.loading_time = loading_time
         self.crossing_time = crossing_time
 
-def train_thread_function(train, controller):
+def train_thread_function(train, controller, barrier):
+
+    # wait for all train threads to be created to start loading
+    barrier.wait()
+    print(f"Train {train.id} is ready to load.")
     time.sleep(train.loading_time)
     print(f"Train {train.id} has finished loading.")
     controller.add_train_to_queue(train)
